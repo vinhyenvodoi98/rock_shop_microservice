@@ -6,12 +6,18 @@ var cors = require('cors');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+
 var routes = require('./routes/index');
 
-// var configDB = require('./config/database.js');
+var configDB = require('./config/database.js');
 
 // configuration ===============================================================
-// mongoose.connect(configDB.url); // connect to our database
+mongoose.connect(configDB.url, { useUnifiedTopology: true, useNewUrlParser: true }, error => {
+  if (error) console.log(error);
+  else console.log('Connect successfully');
+});
+mongoose.set('useCreateIndex', true);
 
 // show log
 app.use(logger('dev'));

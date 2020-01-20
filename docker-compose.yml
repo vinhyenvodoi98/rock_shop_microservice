@@ -7,7 +7,38 @@ services:
     restart: unless-stopped
     working_dir: /myapp/frontend
     volumes:
-      - ./frontend:/myapp/frontend
+      - ./frontend_service:/myapp/frontend
     ports:
       - '3000:3000'
     command: 'yarn start'
+
+  auth_service:
+    build: ./auth_service
+    container_name: Auth_service
+    restart: unless-stopped
+    working_dir: /usr/src/app
+    volumes:
+      - ./auth_service:/usr/src/app
+    ports:
+      - '30001:30001'
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+    command: 'yarn start'
+
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
