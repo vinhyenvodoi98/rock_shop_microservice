@@ -3,6 +3,7 @@ var app = express();
 var port = process.env.PORT || 30001;
 
 var cors = require('cors');
+var helmet = require('helmet');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -34,6 +35,8 @@ app.use(
     credentials: true // allow session cookie from browser to pass through
   })
 );
+
+app.use(helmet());
 
 app.use(
   require('express-session')({
