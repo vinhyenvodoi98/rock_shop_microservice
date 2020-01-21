@@ -27,8 +27,8 @@ The tokens is saved as an array because the user who logs on in a new device wil
 
 - `HTTP POST /users — Register users.`
 - `HTTP POST /users/login — Allow users to login.`
-- `HTTP GET / users/me — Get user profile.`
-- `HTTP POST /users/logout —Logout the user`
+- `HTTP GET /users/me — Get user profile.`
+- `HTTP POST /users/logout — Logout the user`
 - `HTTP POST /users/logoutall — Logout from all devices.`
 
 #### POST /users

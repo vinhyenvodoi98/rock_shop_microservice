@@ -18,7 +18,6 @@ router.post('/users', async (req, res) => {
       token: token
     });
   } catch (error) {
-    console.log(error);
     res.status(400).send(error);
   }
 });
