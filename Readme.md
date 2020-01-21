@@ -7,6 +7,10 @@
 
 ## Description
 
+https://drive.google.com/file/d/1SAkY1Qyb5ThbOJXg7R8nlZivb31H49fq/view?usp=sharing
+
+![API_Gateway](https://github.com/vinhyenvodoi98/rock_shop_microservice/blob/master/DocsImages/gateway.png)
+
 ## Auth_service
 
 Tech requirements: nodejs + express + jwt + mongodb
