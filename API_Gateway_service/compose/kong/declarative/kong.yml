@@ -1,6 +1,27 @@
 _format_version: '1.1'
 
 # Cấu hình các Upstreams
+# Cấu hình các Consumers và JWT cho consumers
+
+consumers:
+  - custom_id: auth
+    username: auth
+jwt_secrets:
+- consumer: auth
+  algorithm: HS256
+  key: ${KONG_JWT}
+  secret: ${JWT_KEY}
+
+plugins:
+- name: jwt
+  enabled: yes
+  service: default-service
+  config:
+    header_names: ["Authorization"]
+    # uri_param_names:
+    key_claim_name: iss
+    run_on_preflight: true
+
 
 upstreams:
   - name: upstream
@@ -72,7 +93,7 @@ upstreams:
     targets:
       #Sau khi tạo xong một upstream, chúng ta bắt đầu set Targets cho nó. Targets chính là đích mà
       #các cái Upstream của ta hướng tới, bản chất nó chính là địa chỉ của các server chứa services.
-      - target: 192.168.1.7:30001
+      - target: 10.42.0.1:30001
         weight: 200
 
 # Cấu hình các Services và Routes
@@ -81,7 +102,7 @@ services:
   - name: default-service
     host: upstream
     protocol: http
-    host: 192.168.1.7
+    host: 10.42.0.1
     port: 30001
     path: '/'
     retries: 5
