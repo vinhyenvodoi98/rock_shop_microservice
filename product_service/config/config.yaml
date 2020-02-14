@@ -1,4 +1,4 @@
 addr: :9000
 
-dsn: 'mydb_user:mydb_pwd@tcp(127.0.0.1:4406)/mydb?charset=utf8&parseTime=True&loc=Local'
+dsn: 'mydb_user:mydb_pwd@tcp(mysql_master:3306)/mydb?charset=utf8&parseTime=True&loc=Local'
 max_idle_conn: 100

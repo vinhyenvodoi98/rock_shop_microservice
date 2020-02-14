@@ -27,6 +27,21 @@ services:
       - app-network
     command: 'yarn start'
 
+  product_service:
+    build: ./product_service
+    restart: on-failure
+    ports:
+      - '30002:9000'
+    tty: true
+    depends_on:
+      - mysql_master
+    working_dir: /app
+    volumes:
+      - ./product_service:/app
+    command: 'go run ./main.go'
+    networks:
+      - overlay
+
   mongo:
     image: mongo
     restart: unless-stopped
@@ -39,6 +54,36 @@ services:
       - ./auth_service/user_data:/data/db
     networks:
       - app-network
+
+  mysql_master:
+    image: mysql:5.7
+    env_file:
+      - ./dataCenter/master/mysql_master.env
+    container_name: 'mysql_master'
+    restart: 'no'
+    ports:
+      - 4406:3306
+    volumes:
+      - ./dataCenter/master/conf/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./dataCenter/master/data:/var/lib/mysql
+    networks:
+      - overlay
+
+  mysql_slave:
+    image: mysql:5.7
+    env_file:
+      - ./dataCenter/slave/mysql_slave.env
+    container_name: 'mysql_slave'
+    restart: 'no'
+    ports:
+      - 5506:3306
+    depends_on:
+      - mysql_master
+    volumes:
+      - ./dataCenter/slave/conf/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./dataCenter/slave/data:/var/lib/mysql
+    networks:
+      - overlay
 
   kong_API_Gateway:
     container_name: kong_API_Gateway
@@ -79,6 +124,7 @@ services:
 networks:
   app-network:
     driver: bridge
+  overlay:
   # kong:
   #   driver: bridge
   #   name: kong-network

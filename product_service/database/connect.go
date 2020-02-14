@@ -2,7 +2,7 @@ package database
 
 import (
 	"github.com/jinzhu/gorm"
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gin-gorm-example/models"
 	"gin-gorm-example/config"
 )
